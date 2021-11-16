@@ -69,6 +69,7 @@ volumes:
     influxdb-config:
     mongodb-data:
 
+
 networks:
     aida-monit-net:
         driver: bridge
