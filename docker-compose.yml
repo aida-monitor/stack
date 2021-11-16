@@ -45,7 +45,8 @@ services:
             INFLUXDB_ORG: ${INFLUXDB_ORG}
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-            NODE_ENV: ${NODE_ENV}
+            JWT_SECRET: ${JWT_SECRET}
+            NODE_ENV: ${NODE_ENV:-production}
         depends_on:
             - influxdb
             - mongodb
@@ -59,7 +60,9 @@ services:
         ports:
             - 3001:3000
         environment:
-            NODE_ENV: ${NODE_ENV}
+            JWT_SECRET: ${JWT_SECRET}
+            NODE_ENV: ${NODE_ENV:-production}
+
 
 volumes:
     influxdb-data:
