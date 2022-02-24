@@ -46,7 +46,7 @@ services:
             - mongodb
 
     auth:
-        image:  ../auth-mock
+        build:  ../auth-mock
         restart: always
         container_name: auth
         ports:
