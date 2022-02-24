@@ -22,10 +22,10 @@ services:
     
     mongodb:
         image: mongo:latest
+        restart: always
         container_name: mongodb
         networks:
             - aida-monit-net
-        restart: always
         ports:
             - 27018:27017
         volumes:
@@ -55,6 +55,8 @@ services:
         image: ghcr.io/aida-monitor/alert-manager:latest
         restart: always
         container_name: alert-manager
+        networks:
+            - aida-monit-net
         ports:
             - 3001:3000
         environment:
@@ -71,10 +73,10 @@ services:
     
     auth:
         image:  ghcr.io/aida-monitor/auth-mock:latest
+        restart: always
         container_name: auth
         networks:
             - aida-monit-net
-        restart: always
         ports:
             - 3002:3000
         environment:
