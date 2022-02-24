@@ -44,13 +44,31 @@ services:
         depends_on:
             - influxdb
             - mongodb
+    
+    alert-manager:
+        build: ../alert-manager
+        restart: always
+        container_name: alert-manager
+        ports:
+            - 3001:3000
+        environment:
+            MONGODB_URL: ${MONGODB_URL}
+            INFLUXDB_URL: ${INFLUXDB_URL}
+            INFLUXDB_ORG: ${INFLUXDB_ORG}
+            INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+            INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+            JWT_SECRET: ${JWT_SECRET}
+            NODE_ENV: ${NODE_ENV:-development}
+        depends_on:
+            - influxdb
+            - mongodb
 
     auth:
         build:  ../auth-mock
         restart: always
         container_name: auth
         ports:
-            - 3001:3000
+            - 3002:3000
         environment:
             JWT_SECRET: ${JWT_SECRET}
             NODE_ENV: ${NODE_ENV:-production}
