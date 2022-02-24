@@ -2,7 +2,7 @@ version: "2"
 
 services:
     influxdb:
-        image: influxdb:2.0
+        image: influxdb:2.1
         container_name: influxdb
         restart: always
         networks:
