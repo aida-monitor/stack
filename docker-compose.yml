@@ -51,7 +51,7 @@ services:
             - influxdb
             - mongodb
 
-     alert-manager:
+    alert-manager:
         image: ghcr.io/aida-monitor/alert-manager:latest
         restart: always
         container_name: alert-manager
