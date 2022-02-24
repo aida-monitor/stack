@@ -1,12 +1,10 @@
-version: "2"
+version: "3.8"
 
 services:
     influxdb:
         image: influxdb:2.1
-        container_name: influxdb
         restart: always
-        networks:
-            - aida-monit-net
+        container_name: influxdb
         ports:
             - 8087:8086
         environment:
@@ -22,21 +20,17 @@ services:
     
     mongodb:
         image: mongo:latest
-        container_name: mongodb
-        networks:
-            - aida-monit-net
         restart: always
+        container_name: mongodb
         ports:
             - 27018:27017
         volumes:
             - mongodb-data:/data/db
-
+    
     core:
-        image: ghcr.io/aida-monitor/core:latest
+        build: ../core
         restart: always
         container_name: core
-        networks:
-            - aida-monit-net
         ports:
             - 3000:3000
         environment:
@@ -46,17 +40,15 @@ services:
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
             JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-production}
+            NODE_ENV: ${NODE_ENV:-development}
         depends_on:
             - influxdb
             - mongodb
-    
+
     auth:
-        image:  ghcr.io/aida-monitor/auth-mock:latest
-        container_name: auth
-        networks:
-            - aida-monit-net
+        image:  ../auth-mock
         restart: always
+        container_name: auth
         ports:
             - 3001:3000
         environment:
@@ -68,8 +60,3 @@ volumes:
     influxdb-data:
     influxdb-config:
     mongodb-data:
-
-
-networks:
-    aida-monit-net:
-        driver: bridge
