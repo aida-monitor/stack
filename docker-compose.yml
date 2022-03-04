@@ -40,7 +40,7 @@ services:
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
             JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-development}
+            NODE_ENV: ${NODE_ENV:-production}
         depends_on:
             - influxdb
             - mongodb
@@ -58,7 +58,7 @@ services:
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
             JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-development}
+            NODE_ENV: ${NODE_ENV:-production}
         depends_on:
             - influxdb
             - mongodb
