@@ -34,7 +34,7 @@ services:
         container_name: core
         network_mode: bridge
         ports:
-            - 3000:3000
+            - 3001:3000
         environment:
             MONGODB_URL: ${MONGODB_URL}
             INFLUXDB_URL: ${INFLUXDB_URL}
@@ -56,7 +56,7 @@ services:
         container_name: alert-manager
         network_mode: bridge
         ports:
-            - 3001:3000
+            - 3002:3000
         environment:
             MONGODB_URL: ${MONGODB_URL}
             INFLUXDB_URL: ${INFLUXDB_URL}
