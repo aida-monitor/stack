@@ -5,8 +5,7 @@ services:
         image: influxdb:2.1
         container_name: influxdb
         restart: always
-        networks:
-            - aida-monit-net
+        network_mode: bridge
         ports:
             - 8087:8086
         environment:
@@ -24,8 +23,7 @@ services:
         image: mongo:latest
         restart: always
         container_name: mongodb
-        networks:
-            - aida-monit-net
+        network_mode: bridge
         ports:
             - 27018:27017
         volumes:
@@ -35,8 +33,7 @@ services:
         image: ghcr.io/aida-monitor/core:latest
         restart: always
         container_name: core
-        networks:
-            - aida-monit-net
+        network_mode: bridge
         ports:
             - 3000:3000
         environment:
@@ -46,8 +43,11 @@ services:
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
             JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-production}
+            NODE_ENV: ${NODE_ENV}
         depends_on:
+            - influxdb
+            - mongodb
+        links:
             - influxdb
             - mongodb
 
@@ -55,8 +55,7 @@ services:
         image: ghcr.io/aida-monitor/alert-manager:latest
         restart: always
         container_name: alert-manager
-        networks:
-            - aida-monit-net
+        network_mode: bridge
         ports:
             - 3001:3000
         environment:
@@ -66,30 +65,16 @@ services:
             INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
             INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
             JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-development}
+            NODE_ENV: ${NODE_ENV}
         depends_on:
             - influxdb
             - mongodb
-    
-    auth:
-        image:  ghcr.io/aida-monitor/auth-mock:latest
-        restart: always
-        container_name: auth
-        networks:
-            - aida-monit-net
-        ports:
-            - 3002:3000
-        environment:
-            JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV:-production}
+        links:
+            - influxdb
+            - mongodb
 
 
 volumes:
     influxdb-data:
     influxdb-config:
     mongodb-data:
-
-
-networks:
-    aida-monit-net:
-        driver: bridge
