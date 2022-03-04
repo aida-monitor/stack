@@ -1,9 +1,8 @@
-version: "2"
+version: "3.8"
 
 services:
     influxdb:
         image: influxdb:2.1
-        container_name: influxdb
         restart: always
         network_mode: bridge
         ports:
@@ -28,9 +27,9 @@ services:
             - 27018:27017
         volumes:
             - mongodb-data:/data/db
-
+    
     core:
-        image: ghcr.io/aida-monitor/core:latest
+        build: ../core
         restart: always
         container_name: core
         network_mode: bridge
