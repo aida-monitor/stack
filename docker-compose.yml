@@ -1,79 +1,79 @@
 version: "3.8"
 
 services:
-    influxdb:
-        image: influxdb:2.1
-        restart: always
-        network_mode: bridge
-        ports:
-            - 8087:8086
-        environment:
-            DOCKER_INFLUXDB_INIT_MODE: setup
-            DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_USERNAME}
-            DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_PASSWORD}
-            DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG}
-            DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_BUCKET}
-            DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_TOKEN}
-        volumes:
-            - influxdb-data:/var/lib/influxdb2
-            - influxdb-config:/etc/influxdb2
-    
-    mongodb:
-        image: mongo:latest
-        restart: always
-        container_name: mongodb
-        network_mode: bridge
-        ports:
-            - 27018:27017
-        volumes:
-            - mongodb-data:/data/db
-    
-    core:
-        build: ../core
-        restart: always
-        container_name: core
-        network_mode: bridge
-        ports:
-            - 3001:3000
-        environment:
-            MONGODB_URL: ${MONGODB_URL}
-            INFLUXDB_URL: ${INFLUXDB_URL}
-            INFLUXDB_ORG: ${INFLUXDB_ORG}
-            INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
-            INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-            JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV}
-        depends_on:
-            - influxdb
-            - mongodb
-        links:
-            - influxdb
-            - mongodb
+  influxdb:
+    image: influxdb:2.1
+    restart: always
+    network_mode: bridge
+    ports:
+      - 8087:8086
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_USERNAME}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_TOKEN}
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - influxdb-configs:/etc/influxdb2
 
-    alert-manager:
-        image: ghcr.io/aida-monitor/alert-manager:latest
-        restart: always
-        container_name: alert-manager
-        network_mode: bridge
-        ports:
-            - 3002:3000
-        environment:
-            MONGODB_URL: ${MONGODB_URL}
-            INFLUXDB_URL: ${INFLUXDB_URL}
-            INFLUXDB_ORG: ${INFLUXDB_ORG}
-            INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
-            INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-            JWT_SECRET: ${JWT_SECRET}
-            NODE_ENV: ${NODE_ENV}
-        depends_on:
-            - influxdb
-            - mongodb
-        links:
-            - influxdb
-            - mongodb
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb
+    network_mode: bridge
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb-data:/data/db
+
+  core:
+    build: ../core
+    restart: always
+    container_name: core
+    network_mode: bridge
+    ports:
+      - 3001:3000
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV}
+    depends_on:
+      - influxdb
+      - mongodb
+    links:
+      - influxdb
+      - mongodb
+
+  alert-manager:
+    image: ghcr.io/aida-monitor/alert-manager:latest
+    restart: always
+    container_name: alert-manager
+    network_mode: bridge
+    ports:
+      - 3002:3000
+    environment:
+      MONGODB_URL: ${MONGODB_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV}
+    depends_on:
+      - influxdb
+      - mongodb
+    links:
+      - influxdb
+      - mongodb
 
 
 volumes:
-    influxdb-data:
-    influxdb-config:
-    mongodb-data:
+  influxdb-data:
+  influxdb-config:
+  mongodb-data:
