@@ -20,7 +20,7 @@ services:
       - influxdb-config:/etc/influxdb2
 
   mongodb:
-    image: mongo:latest
+    image: mongo:5.0
     restart: always
     container_name: mongodb
     network_mode: bridge
