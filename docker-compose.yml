@@ -32,7 +32,7 @@ services:
     restart: always
     container_name: core
     ports:
-      - "3000:3000"
+      - "3002:3000"
     environment:
       MONGODB_URL: ${MONGODB_URL}
       INFLUXDB_URL: ${INFLUXDB_URL}
