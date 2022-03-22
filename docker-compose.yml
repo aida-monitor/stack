@@ -32,6 +32,26 @@ services:
     restart: always
     container_name: core
     ports:
+      - "3001:3000"
+    environment:
+      ALERTS_MANAGER_URL: http://alert-manager:3000
+      MONGODB_URL: ${MONGODB_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV:-production}
+    depends_on:
+      - influxdb
+      - mongodb
+      - alert-manager
+
+  alert-manager:
+    build: ../alert-manager
+    restart: always
+    container_name: alert-manager
+    ports:
       - "3002:3000"
     environment:
       MONGODB_URL: ${MONGODB_URL}
@@ -45,12 +65,12 @@ services:
       - influxdb
       - mongodb
 
-  alert-manager:
-    build: ../alert-manager
+  data-exporter:
+    build: ../data-exporter
     restart: always
-    container_name: alert-manager
+    container_name: data-exporter
     ports:
-      - "3001:3000"
+      - "3003:3000"
     environment:
       MONGODB_URL: ${MONGODB_URL}
       INFLUXDB_URL: ${INFLUXDB_URL}
