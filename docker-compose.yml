@@ -48,9 +48,11 @@ services:
     depends_on:
       - influxdb
       - mongodb
+      - alert-manager
     links:
       - influxdb
       - mongodb
+      - alert-manager
 
   alert-manager:
     image: ghcr.io/aida-monitor/alert-manager:latest
