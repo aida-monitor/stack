@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+  agent-executor-synchronizer:
+    image: ghcr.io/aida-monitor/agent-executor-synchronizer:latest
+    restart: always
+    container_name: agent-executor-synchronizer
+    network_mode: bridge
+    environment:
+      ORGANIZATION_NAME: ${ORGANIZATION_NAME}
+      CORE_URL: ${CORE_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV}
+
+  agent-executor-forwarder:
+    image: ghcr.io/aida-monitor/agent-executor-forwarder:lastest
+    restart: always
+    container_name: agent-executor-forwarder
+    network_mode: bridge
+    ports:
+      - "6000:3000"
+    environment:
+      ORGANIZATION_NAME: ${ORGANIZATION_NAME}
+      CORE_URL: ${CORE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV}
