@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  agent-executor-synchronizer:
+    build: ../agent-executor-synchronizer
+    restart: always
+    container_name: local-agent-executor-synchronizer
+    environment:
+      CORE_URL: ${CORE_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV:-production}
