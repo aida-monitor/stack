@@ -17,6 +17,8 @@ services:
       NODE_ENV: ${NODE_ENV}
       HTTP_PROXY: ${HTTP_PROXY}
       HTTPS_PROXY: ${HTTPS_PROXY}
+      http_proxy: ${HTTP_PROXY}
+      https_proxy: ${HTTPS_PROXY}
 
   agent-executor-forwarder:
     image: ghcr.io/aida-monitor/agent-executor-forwarder:latest
@@ -32,3 +34,5 @@ services:
       NODE_ENV: ${NODE_ENV}
       HTTP_PROXY: ${HTTP_PROXY}
       HTTPS_PROXY: ${HTTPS_PROXY}
+      http_proxy: ${HTTP_PROXY}
+      https_proxy: ${HTTPS_PROXY}
