@@ -1,11 +1,10 @@
-version: "2"
+version: "3.8"
 
 services:
   influxdb:
     image: influxdb:2.1
     restart: always
     container_name: influxdb
-    network_mode: bridge
     ports:
       - "8087:8086"
     environment:
@@ -23,7 +22,6 @@ services:
     image: mongo:5.0
     restart: always
     container_name: mongodb
-    network_mode: bridge
     ports:
       - "27018:27017"
     volumes:
@@ -33,7 +31,6 @@ services:
     image: ghcr.io/aida-monitor/core:latest
     restart: always
     container_name: core
-    network_mode: bridge
     ports:
       - "3001:3000"
     environment:
@@ -49,16 +46,11 @@ services:
       - influxdb
       - mongodb
       - alert-manager
-    links:
-      - influxdb
-      - mongodb
-      - alert-manager
 
   alert-manager:
     image: ghcr.io/aida-monitor/alert-manager:latest
     restart: always
     container_name: alert-manager
-    network_mode: bridge
     ports:
       - "3002:3000"
     environment:
@@ -71,15 +63,11 @@ services:
     depends_on:
       - influxdb
       - mongodb
-    links:
-      - influxdb
-      - mongodb
 
   data-exporter:
     image: ghcr.io/aida-monitor/data-exporter:latest
     restart: always
     container_name: data-exporter
-    network_mode: bridge
     ports:
       - "3003:3000"
     environment:
@@ -90,9 +78,6 @@ services:
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
       NODE_ENV: ${NODE_ENV}
     depends_on:
-      - influxdb
-      - mongodb
-    links:
       - influxdb
       - mongodb
 
