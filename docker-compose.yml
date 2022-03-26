@@ -24,8 +24,15 @@ services:
     container_name: mongodb
     ports:
       - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_APP_DATABASE}
+      MONGODB_APP_USERNAME: ${MONGODB_APP_USERNAME}
+      MONGODB_APP_PASSWORD: ${MONGODB_APP_PASSWORD}
     volumes:
       - mongodb-data:/data/db
+      - ./mongodb/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
 
   core:
     image: ghcr.io/aida-monitor/core:latest
@@ -35,7 +42,7 @@ services:
       - "3001:3000"
     environment:
       ALERTS_MANAGER_URL: http://alert-manager:3000
-      MONGODB_URL: ${MONGODB_URL}
+      MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       INFLUXDB_URL: ${INFLUXDB_URL}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
       INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
@@ -54,7 +61,7 @@ services:
     ports:
       - "3002:3000"
     environment:
-      MONGODB_URL: ${MONGODB_URL}
+      MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       INFLUXDB_URL: ${INFLUXDB_URL}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
       INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
