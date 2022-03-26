@@ -1,10 +1,10 @@
 version: "3.8"
 
 services:
-  agent-executor-synchronizer:
-    build: ../agent-executor-synchronizer
+  local-pull-executor:
+    build: ../local-pull-executor
     restart: always
-    container_name: local-agent-executor-synchronizer
+    container_name: local-local-pull-executor
     environment:
       ORGANIZATION_NAME: ${ORGANIZATION_NAME}
       CORE_URL: ${CORE_URL}
@@ -15,10 +15,10 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: ${NODE_ENV:-production}
 
-  agent-executor-forwarder:
-    build: ../agent-executor-forwarder
+  local-push-receiver:
+    build: ../local-push-receiver
     restart: always
-    container_name: agent-executor-forwarder
+    container_name: local-push-receiver
     ports:
       - "6000:3000"
     environment:
