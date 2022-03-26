@@ -1,6 +1,29 @@
 version: "3.8"
 
 services:
+  kong:
+    build: ghcr.io/aida-monitor/kong:latest
+    restart: always
+    container_name: kong
+    ports:
+      - "80:8000"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_DECLARATIVE_CONFIG: "/kong/declarative/kong.yml"
+      KONG_PLUGINS: "bundled,custom-auth"
+
+  auth-mock:
+    build: ghcr.io/aida-monitor/auth-mock:latest
+    restart: always
+    container_name: auth-mock
+    ports:
+      - "3000:3000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: ${NODE_ENV}
+
   influxdb:
     image: influxdb:2.1
     restart: always
@@ -85,7 +108,6 @@ services:
       NODE_ENV: ${NODE_ENV}
     depends_on:
       - influxdb
-      - mongodb
 
 volumes:
   influxdb-data:
