@@ -1,0 +1,37 @@
+_format_version: "1.1"
+_transform: true
+
+services:
+  - name: core
+    host: core
+    port: 3000
+    protocol: http
+    routes:
+      - name: core
+        paths:
+          - /core
+        strip_path: true
+  - name: alert-manager
+    host: alert-manager
+    port: 3000
+    protocol: http
+    routes:
+      - name: alert-manager
+        paths:
+          - /alert-manager
+        strip_path: true
+  - name: data-exporter
+    host: data-exporter
+    port: 3000
+    protocol: http
+    routes:
+      - name: data-exporter
+        paths:
+          - /data-exporter
+        strip_path: true
+
+plugins:
+  - name: custom-auth
+    config:
+      authentication_endpoint: http://auth-mock:3000/api/auth/validate
+      token_header: Authorization
