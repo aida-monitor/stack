@@ -72,7 +72,6 @@ services:
     ports:
       - "3003:3000"
     environment:
-      MONGODB_URL: ${MONGODB_URL}
       INFLUXDB_URL: ${INFLUXDB_URL}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
       INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
@@ -81,7 +80,6 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
     depends_on:
       - influxdb
-      - mongodb
 
 volumes:
   influxdb-data:
