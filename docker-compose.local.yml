@@ -22,7 +22,10 @@ services:
     ports:
       - "6000:3000"
     environment:
-      ORGANIZATION_NAME: ${ORGANIZATION_NAME}
       CORE_URL: ${CORE_URL}
+      INFLUXDB_URL: ${INFLUXDB_URL}
+      INFLUXDB_ORG: ${INFLUXDB_ORG}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
       JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: ${NODE_ENV:-production}
