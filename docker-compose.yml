@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   kong:
-    build: ./kong
+    build: ../kong
     restart: always
     container_name: kong
     environment:
@@ -10,12 +10,9 @@ services:
       KONG_PROXY_LISTEN: 0.0.0.0:8000
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_DECLARATIVE_CONFIG: "/kong/declarative/kong.yml"
-      KONG_PLUGINS: "bundled,custom-auth"
-    volumes:
-      - "./kong/kong.yml:/kong/declarative/kong.yml"
+      KONG_PLUGINS: "bundled,custom-auth,path-prefix"
     ports:
       - "8000:8000"
-      - "8001:8001"
 
   auth-mock:
     build: ../auth-mock
