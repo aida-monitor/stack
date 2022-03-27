@@ -18,8 +18,8 @@ services:
     build: ghcr.io/aida-monitor/auth-mock:latest
     restart: always
     container_name: auth-mock
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: ${NODE_ENV}
@@ -61,8 +61,8 @@ services:
     image: ghcr.io/aida-monitor/core:latest
     restart: always
     container_name: core
-    ports:
-      - "3001:3000"
+    expose:
+      - "3000"
     environment:
       ALERTS_MANAGER_URL: http://alert-manager:3000
       MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
@@ -70,7 +70,6 @@ services:
       INFLUXDB_ORG: ${INFLUXDB_ORG}
       INFLUXDB_BUCKET: ${INFLUXDB_BUCKET}
       INFLUXDB_TOKEN: ${INFLUXDB_TOKEN}
-      JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: ${NODE_ENV}
     depends_on:
       - influxdb
@@ -81,8 +80,8 @@ services:
     image: ghcr.io/aida-monitor/alert-manager:latest
     restart: always
     container_name: alert-manager
-    ports:
-      - "3002:3000"
+    expose:
+      - "3000"
     environment:
       MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       INFLUXDB_URL: ${INFLUXDB_URL}
@@ -98,8 +97,8 @@ services:
     image: ghcr.io/aida-monitor/data-exporter:latest
     restart: always
     container_name: data-exporter
-    ports:
-      - "3003:3000"
+    expose:
+      - "3000"
     environment:
       INFLUXDB_URL: ${INFLUXDB_URL}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
