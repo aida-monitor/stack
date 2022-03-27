@@ -15,15 +15,6 @@ services:
     ports:
       - "8000:8000"
 
-  auth-mock:
-    build: ../auth-mock
-    restart: always
-    container_name: auth-mock
-    ports:
-      - "4500:3000"
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-
   influxdb:
     image: influxdb:2.1
     restart: always
@@ -56,6 +47,18 @@ services:
     volumes:
       - mongodb-data:/data/db
       - ./mongodb/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+
+  auth:
+    build: ../auth
+    restart: always
+    container_name: auth
+    ports:
+      - "3000:3000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
+    depends_on:
+      - mongodb
 
   core:
     build: ../core
