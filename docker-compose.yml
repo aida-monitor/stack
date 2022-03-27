@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   kong:
-    build: ghcr.io/aida-monitor/kong:latest
+    image: ghcr.io/aida-monitor/kong:latest
     restart: always
     container_name: kong
     ports:
@@ -12,10 +12,10 @@ services:
       KONG_PROXY_LISTEN: 0.0.0.0:8000
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_DECLARATIVE_CONFIG: "/kong/declarative/kong.yml"
-      KONG_PLUGINS: "bundled,custom-auth"
+      KONG_PLUGINS: "bundled,custom-auth,path-prefix"
 
   auth-mock:
-    build: ghcr.io/aida-monitor/auth-mock:latest
+    image: ghcr.io/aida-monitor/auth-mock:latest
     restart: always
     container_name: auth-mock
     expose:
