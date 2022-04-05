@@ -55,6 +55,7 @@ services:
     expose:
       - "3000"
     environment:
+      MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       JWT_SECRET: ${JWT_SECRET}
       NODE_ENV: ${NODE_ENV}
     depends_on:
