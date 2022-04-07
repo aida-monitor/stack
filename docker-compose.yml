@@ -80,6 +80,18 @@ services:
       - mongodb
       - alert-manager
 
+  notification-broker:
+    image: ghcr.io/aida-monitor/notification-broker:latest
+    restart: always
+    container_name: notification-broker
+    expose:
+      - "3000"
+    environment:
+      MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
+      NODE_ENV: ${NODE_ENV}
+    depends_on:
+      - mongodb
+
   alert-manager:
     image: ghcr.io/aida-monitor/alert-manager:latest
     restart: always
