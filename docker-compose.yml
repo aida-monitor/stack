@@ -68,8 +68,8 @@ services:
     expose:
       - "3000"
     environment:
-      ALERTS_MANAGER_URL: http://notification-broker:3000
-      NOTIF_BROKER_URL: http://alert-manager:3000
+      NOTIF_BROKER_URL: http://notification-broker:3000
+      ALERTS_MANAGER_URL: http://alert-manager:3000
       MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       INFLUXDB_URL: ${INFLUXDB_URL}
       INFLUXDB_ORG: ${INFLUXDB_ORG}
