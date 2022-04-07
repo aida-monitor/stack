@@ -68,7 +68,7 @@ services:
     expose:
       - "3000"
     environment:
-      NOTIF_BROKER_URL: http://notification-broker:3000
+      NOTIF_BROKER_URL: http://vps-d1fb3729.vps.ovh.ca/notification-broker
       ALERTS_MANAGER_URL: http://alert-manager:3000
       MONGODB_URL: mongodb://${MONGODB_APP_USERNAME}:${MONGODB_APP_PASSWORD}@mongodb:27017/${MONGODB_APP_DATABASE}?readPreference=primary&ssl=false
       INFLUXDB_URL: ${INFLUXDB_URL}
