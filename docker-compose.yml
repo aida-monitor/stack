@@ -19,10 +19,10 @@ services:
       KONG_PLUGINS: "bundled,custom-auth,path-prefix"
       ACCESS_TOKEN: ${ACCESS_TOKEN}
 
-  kong_cerbot_agent:
+  kong-certbot-agent:
     image: phpdockerio/kong-certbot-agent
     restart: always
-    container_name: kong_cerbot_agent
+    container_name: kong-certbot-agent
     environment:
       DOMAINS: "vps-d1fb3729.vps.ovh.ca,monitor.aida-hitech.pt"
       TEST_CERT: "false"
