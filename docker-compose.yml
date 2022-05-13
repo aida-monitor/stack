@@ -17,7 +17,7 @@ services:
       KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
       KONG_DECLARATIVE_CONFIG: "/kong/declarative/kong.yml"
       KONG_LUA_SSL_TRUSTED_CERTIFICATE: system
-      KONG_PLUGINS: "bundled,custom-auth,path-prefix"
+      KONG_PLUGINS: "bundled,custom-auth,path-prefix,http-to-https-redirect"
       ACCESS_TOKEN: ${ACCESS_TOKEN}
 
   influxdb:
