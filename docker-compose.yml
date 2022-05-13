@@ -7,6 +7,9 @@ services:
     container_name: kong
     ports:
       - "80:8000"
+    expose:
+      - "8000"
+      - "8001"
     environment:
       KONG_DATABASE: "off"
       KONG_PROXY_LISTEN: 0.0.0.0:8000
@@ -15,6 +18,18 @@ services:
       KONG_PLUGINS: "bundled,custom-auth,path-prefix"
       ACCESS_TOKEN: ${ACCESS_TOKEN}
 
+  kong_cerbot_agent:
+    image: phpdockerio/kong-certbot-agent
+    restart: always
+    container_name: kong_cerbot_agent
+    environment:
+      DOMAINS: "vps-d1fb3729.vps.ovh.ca,monitor.aida-hitech.pt"
+      TEST_CERT: "false"
+      KONG_ENDPOINT: http://kong:8001
+      EMAIL: vascoalramos@gmail.com
+    depends_on:
+      - kong
+  
   influxdb:
     image: influxdb:2.1
     restart: always
