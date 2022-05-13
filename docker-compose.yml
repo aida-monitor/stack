@@ -27,7 +27,7 @@ services:
     restart: always
     container_name: redis
     environment:
-      ALLOW_EMPTY_PASSWORD: yes
+      ALLOW_EMPTY_PASSWORD: "yes"
   
   
   influxdb:
