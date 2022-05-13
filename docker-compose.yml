@@ -19,7 +19,17 @@ services:
       KONG_LUA_SSL_TRUSTED_CERTIFICATE: system
       KONG_PLUGINS: "bundled,custom-auth,path-prefix,http-to-https-redirect"
       ACCESS_TOKEN: ${ACCESS_TOKEN}
+    depends_on:
+      - redis
 
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    container_name: redis
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+  
+  
   influxdb:
     image: influxdb:2.1
     restart: always
